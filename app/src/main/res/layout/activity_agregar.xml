@@ -16,11 +16,14 @@
             android:inputType="textPersonName"
             android:maxLength="200"
             android:maxWidth="150dp"
+            android:textAlignment="center"
             android:minWidth="150dp" />
     <Button
             android:id="@+id/botonGuardar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/boton_guardar" />
+            android:text="@string/boton_guardar"
+            android:onClick="guardarFugitivoPresionado"
+            />
 </LinearLayout>

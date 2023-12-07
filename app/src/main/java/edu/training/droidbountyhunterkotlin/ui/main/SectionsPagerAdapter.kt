@@ -16,15 +16,11 @@ private val TAB_TITLES = arrayOf(
     R.string.tab_text_3
 )
 
-private var fragments: ArrayList<Fragment> = ArrayList()
-
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-    override fun getItem(position: Int): Fragment {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
-        //return PlaceholderFragment.newInstance(position + 1)
+    private var fragments: ArrayList<Fragment> = ArrayList()
 
+    override fun getItem(position: Int): Fragment {
         if(fragments.size < 3){
             if(position < 2){
                 fragments.add(position,ListFragment())

@@ -22,7 +22,9 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_marginTop="20dp"
             android:layout_below="@+id/etiquetaMensaje"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:onClick="capturarFugitivoPresionado"
+            />
     <Button
             android:id="@+id/botonEliminar"
             android:layout_width="wrap_content"
@@ -32,5 +34,7 @@
             android:text="@string/boton_eliminar"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_below="@+id/botonCapturar"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:onClick="eliminarFugitivoPresionado"
+            />
 </RelativeLayout>
