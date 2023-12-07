@@ -136,7 +136,7 @@ class NetworkServices {
                 urlConnection.connect()
                 val objectJSON = JSONObject()
 
-                objectJSON.put("UUIDString", id)
+                objectJSON.put("UDIDString", id)
                 val dataOutputStream = DataOutputStream(urlConnection.getOutputStream())
                 dataOutputStream.write(objectJSON.toString().toByteArray())
                 dataOutputStream.flush()

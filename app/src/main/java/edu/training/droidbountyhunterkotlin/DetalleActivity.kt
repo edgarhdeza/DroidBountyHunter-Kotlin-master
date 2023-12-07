@@ -69,7 +69,7 @@ class DetalleActivity : AppCompatActivity() {
                 override fun tareaConError(codigo: Int, mensaje: String, error: String) {
                     Toast.makeText(this@DetalleActivity, "Ocurrio un problema en la comunicación con el WebService!!!", Toast.LENGTH_LONG).show()
                 }
-            }, UDID)
+            })
         }
 
         setResult(1)
