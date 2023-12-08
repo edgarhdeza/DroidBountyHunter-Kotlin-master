@@ -19,4 +19,9 @@
     <string name="etiqueta_mensaje">Mensaje…</string>
     <string name="titulo_activity_agregar">Nuevo fugitivo</string>
     <string name="titulo_activity_detalle">Detalle Fugitivo</string>
+    <string name="boton_foto">Tomar Foto</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="boton_mapa">Ver mapa</string>
+
+
 </resources>
