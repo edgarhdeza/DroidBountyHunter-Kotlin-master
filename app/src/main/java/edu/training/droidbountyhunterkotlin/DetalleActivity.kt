@@ -2,27 +2,34 @@ package edu.training.droidbountyhunterkotlin
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.ActionBar
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
 import android.os.Build
+//import android.os.Build.VERSION_CODES.R
 import android.os.Bundle
 import android.os.Looper
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -35,8 +42,11 @@ import edu.training.droidbountyhunterkotlin.network.NetworkServices
 import edu.training.droidbountyhunterkotlin.network.OnTaskListener
 import edu.training.droidbountyhunterkotlin.utils.PictureTools
 import edu.training.droidbountyhunterkotlin.utils.PictureTools.Companion.MEDIA_TYPE_IMAGE
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.time.LocalDateTime
+import java.util.Date
 
 class DetalleActivity : AppCompatActivity() {
 
@@ -60,20 +70,20 @@ class DetalleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detalle)
 
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
         setupLocationObjects()
 
         fugitivo = intent.extras?.get("fugitivo") as Fugitivo
 
-        //title = fugitivo!!.name //intent.extras?.get("titulo") as CharSequence?
-
         title = fugitivo!!.name + " - " + fugitivo!!.id
 
-        val etiquetaMensaje = findViewById<TextView>(R.id.etiquetaMensaje)
-        val botonCapturar = findViewById<Button>(R.id.botonCapturar)
+        val etiquetaMensaje = findViewById<TextView>(edu.training.droidbountyhunterkotlin.R.id.etiquetaMensaje)
+        val botonCapturar = findViewById<Button>(edu.training.droidbountyhunterkotlin.R.id.botonCapturar)
 
         pictureFugitive = findViewById(R.id.pictureFugitivo)
 
-        if(fugitivo!!.status == 0)  //if(intent.extras?.get("modo") == 0)
+        if(fugitivo!!.status == 0)
         {
             etiquetaMensaje.text = "El fugitivo sigue sueto..."
             activarGPS()
@@ -89,6 +99,12 @@ class DetalleActivity : AppCompatActivity() {
 
             pictureFugitive?.setImageBitmap(bitmap)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_detalles, menu)
+        return true
     }
 
     override fun onStop() {
@@ -124,43 +140,6 @@ class DetalleActivity : AppCompatActivity() {
         }
     }
 
-    fun capturarFugitivoPresionado(view: View){
-        database = DatabaseBountyHunter(this)
-        fugitivo!!.status = 1
-
-        if (fugitivo!!.photo.isNullOrEmpty()){
-            Toast.makeText(this,
-                "Es necesario tomar la foto antes de capturar al fugitivo",
-                Toast.LENGTH_LONG).show()
-            return
-        }
-
-        database!!.actualizarFugitivo(fugitivo!!)
-
-        lifecycleScope.launch {
-            NetworkServices.execute("Atrapar", object: OnTaskListener {
-                override fun tareaCompletada(respuesta: String) {
-                    val obj = JSONObject(respuesta)
-                    val mensaje = obj.optString("mensaje","")
-                    mensajeDeCerrado(mensaje)
-                }
-                override fun tareaConError(codigo: Int, mensaje: String, error: String) {
-                    Toast.makeText(this@DetalleActivity, "Ocurrio un problema en la comunicación con el WebService!!!", Toast.LENGTH_LONG).show()
-                }
-            })
-        }
-
-        setResult(1)
-        //finish()
-    }
-
-    fun eliminarFugitivoPresionado(view: View){
-        database = DatabaseBountyHunter(this)
-        database!!.borrarFugitivo(fugitivo!!)
-        setResult(0)
-        finish()
-    }
-
     fun mensajeDeCerrado(mensaje: String){
         val builder = AlertDialog.Builder(this)
         builder.create()
@@ -170,12 +149,6 @@ class DetalleActivity : AppCompatActivity() {
                 setResult(fugitivo!!.status)
                 finish()
             }.show()
-    }
-
-    fun onFotoClick(view: View){
-        if(PictureTools.permissionReadMemmory(this)){
-            obtenFotoDeCamara()
-        }
     }
 
     private fun obtenFotoDeCamara() {
@@ -188,8 +161,7 @@ class DetalleActivity : AppCompatActivity() {
         resultLauncher.launch(intent)
     }
 
-    private val resultLauncher = registerForActivityResult(StartActivityForResult())
-    {
+    private val resultLauncher = registerForActivityResult(StartActivityForResult()) {
         Log.i("CURSO", "${it.resultCode}")
         if(it.resultCode == Activity.RESULT_OK){
             Log.i("CURSO", "${it.resultCode}")
@@ -288,9 +260,84 @@ class DetalleActivity : AppCompatActivity() {
     }
 
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if(fugitivo!!.status == 1){
+            menu!!.findItem(R.id.menu_capturar).setVisible(false)
+            menu!!.findItem(R.id.menu_camera).setVisible(false)
+        }
 
-    fun onMapClick(view: View)
-    {
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.menu_borrar -> {
+                eliminarFugitivoPresionado()
+                true
+            }
+            R.id.menu_capturar -> {
+                capturarFugitivoPresionado()
+                true
+            }
+            R.id.menu_camera -> {
+                onFotoClick()
+                true
+            }
+            R.id.menu_mapa -> {
+                onMapClick()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun eliminarFugitivoPresionado(){ //view: View
+        database = DatabaseBountyHunter(this)
+        database!!.borrarFugitivo(fugitivo!!)
+        setResult(0)
+        finish()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun capturarFugitivoPresionado() { //view: View
+        database = DatabaseBountyHunter(this)
+        fugitivo!!.status = 1
+        fugitivo!!.date = LocalDateTime.now().toString()
+
+        if (fugitivo!!.photo.isNullOrEmpty()){
+            Toast.makeText(this,
+                "Es necesario tomar la foto antes de capturar al fugitivo",
+                Toast.LENGTH_LONG).show()
+            return
+        }
+
+        database!!.actualizarFugitivo(fugitivo!!)
+
+        lifecycleScope.launch {
+            NetworkServices.execute("Atrapar", object: OnTaskListener {
+                override fun tareaCompletada(respuesta: String) {
+                    val obj = JSONObject(respuesta)
+                    val mensaje = obj.optString("mensaje","")
+                    mensajeDeCerrado(mensaje)
+                }
+                override fun tareaConError(codigo: Int, mensaje: String, error: String) {
+                    Toast.makeText(this@DetalleActivity, "Ocurrio un problema en la comunicación con el WebService!!!", Toast.LENGTH_LONG).show()
+                }
+            })
+        }
+
+        setResult(1)
+        //finish()
+    }
+
+    fun onFotoClick(){ //view: View
+        if(PictureTools.permissionReadMemmory(this)){
+            obtenFotoDeCamara()
+        }
+    }
+
+    fun onMapClick() { //view: View
         val intent = Intent(this, MapsActivity::class.java)
         intent.putExtra("fugitivo", fugitivo)
         startActivity(intent)

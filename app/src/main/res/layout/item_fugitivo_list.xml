@@ -1,7 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        >
+
+    <ImageView
+            android:id="@+id/imagenFugitivo"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@android:drawable/ic_menu_gallery"
+            />
+
     <TextView
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/textoRenglon"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="8dp" />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imagenFugitivo"
+            app:layout_constraintTop_toTopOf="@id/imagenFugitivo"
+            tools:text="Nombre Fugitivo"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:padding="5dp" />
+
+    <TextView
+        android:id="@+id/fechaCaptura"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imagenFugitivo"
+            app:layout_constraintTop_toTopOf="@id/imagenFugitivo"
+            android:padding="5dp"
+            tools:text="Fecha"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
@@ -28,7 +29,7 @@ class HomeActivity : AppCompatActivity() {
 
         viewPager = findViewById<ViewPager>(R.id.view_pager)
         val tabs = findViewById<TabLayout>(R.id.tabs)
-        val fab = findViewById<FloatingActionButton>(R.id.fab)
+        //val fab = findViewById<FloatingActionButton>(R.id.fab)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -41,12 +42,12 @@ class HomeActivity : AppCompatActivity() {
         viewPager?.adapter = mSectionsPagerAdapter
         tabs.setupWithViewPager(viewPager)
 
-        fab.setOnClickListener { view ->
-            resultLauncher.launch(Intent(this, AgregarActivity::class.java))
-
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-        }
+//        fab.setOnClickListener { view ->
+//            resultLauncher.launch(Intent(this, AgregarActivity::class.java))
+//
+////            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+////                .setAction("Action", null).show()
+//        }
 
         viewModel.selectedFugitivo.observe(this) {
             fugitivo ->
@@ -72,6 +73,18 @@ class HomeActivity : AppCompatActivity() {
                 resultLauncher.launch(Intent(this, AgregarActivity::class.java))
                 true
             }
+//            R.id.menu_editar -> {
+//                Toast.makeText(this, "Munu editar", Toast.LENGTH_LONG).show()
+//                true
+//            }
+//            R.id.menu_editar2 -> {
+//                Toast.makeText(this, "Llamar", Toast.LENGTH_LONG).show()
+//                true
+//            }
+//            R.id.menu_editar3 -> {
+//                Toast.makeText(this, "Camara", Toast.LENGTH_LONG).show()
+//                true
+//            }
             else -> super.onOptionsItemSelected(item)
         }
     }

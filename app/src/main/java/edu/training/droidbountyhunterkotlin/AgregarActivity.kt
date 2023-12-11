@@ -2,6 +2,8 @@ package edu.training.droidbountyhunterkotlin
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
@@ -13,9 +15,29 @@ class AgregarActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_agregar)
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
-    fun guardarFugitivoPresionado(view: View){
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_agregar, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.menu_guardar -> {
+                guardarFugitivoPresionado()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+
+        //return super.onOptionsItemSelected(item)
+    }
+
+    fun guardarFugitivoPresionado(){ //view: View
         val nombreFugitivoTextView = findViewById<EditText>(R.id.nombreFugitivoTextView)
 
         val nombre = nombreFugitivoTextView.text.toString()

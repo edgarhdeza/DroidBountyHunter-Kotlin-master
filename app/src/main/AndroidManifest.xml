@@ -23,12 +23,13 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
+            android:requestLegacyExternalStorage="true"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyDZknjqzAQPD56ElumEd0Y0acx0Tgq9sDg" />
+                android:value="AIzaSyCrvkCLr3XbyvX-7RrC4s6XVn2lwy4u8Sg" />
 
         <activity
                 android:name=".MapsActivity"
@@ -41,16 +42,19 @@
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
                 android:name=".AgregarActivity"
-                android:label="@string/titulo_activity_agregar" />
+                android:label="@string/titulo_activity_agregar"
+                android:parentActivityName=".HomeActivity"/>
+
         <activity
                 android:name=".DetalleActivity"
-                android:label="@string/titulo_activity_detalle" />
+                android:label="@string/titulo_activity_detalle"
+                android:parentActivityName=".HomeActivity"/>
 
         <provider
                 android:name="androidx.core.content.FileProvider"

@@ -1,10 +1,32 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.training.droidbountyhunter.Home">
     <item
-        android:id="@+id/menu_agregar"
-        android:orderInCategory="100"
-        android:title="@string/menu_agregar"
-        app:showAsAction="never" />
+            android:id="@+id/menu_agregar"
+            android:orderInCategory="100"
+            android:title="@string/menu_agregar"
+            android:icon="@drawable/ic_add"
+            app:showAsAction="always" />
+
+<!--      <item-->
+<!--              android:id="@+id/menu_editar"-->
+<!--              android:orderInCategory="200"-->
+<!--              android:title="Editar"-->
+<!--              android:icon="@android:drawable/ic_menu_edit"-->
+<!--              app:showAsAction="never" />-->
+
+<!--      <item-->
+<!--              android:id="@+id/menu_editar2"-->
+<!--              android:orderInCategory="300"-->
+<!--              android:title="Llamar"-->
+<!--              android:icon="@android:drawable/ic_menu_call"-->
+<!--              app:showAsAction="always" />-->
+
+<!--      <item-->
+<!--              android:id="@+id/menu_editar3"-->
+<!--              android:orderInCategory="400"-->
+<!--              android:title="Camara"-->
+<!--              android:icon="@android:drawable/ic_menu_camera"-->
+<!--              app:showAsAction="never" />-->
 </menu>

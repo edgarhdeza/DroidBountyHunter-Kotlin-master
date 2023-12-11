@@ -25,5 +25,6 @@
             android:layout_marginTop="20dp"
             android:text="@string/boton_guardar"
             android:onClick="guardarFugitivoPresionado"
+            android:visibility="invisible"
             />
 </LinearLayout>

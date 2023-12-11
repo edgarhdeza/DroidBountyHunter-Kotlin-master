@@ -10,7 +10,8 @@ data class Fugitivo @JvmOverloads constructor (
     var status: Int = 0,
     var photo: String? = "",
     var latitude: Double = 0.0,
-    var longitude: Double = 0.0
+    var longitude: Double = 0.0,
+    var date: String? = ""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -18,7 +19,8 @@ data class Fugitivo @JvmOverloads constructor (
         parcel.readInt(),
         parcel.readString(),
         parcel.readDouble(),
-        parcel.readDouble()
+        parcel.readDouble(),
+        parcel.readString()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -28,6 +30,7 @@ data class Fugitivo @JvmOverloads constructor (
         parcel.writeString(photo)
         parcel.writeDouble(latitude)
         parcel.writeDouble(longitude)
+        parcel.writeString(date)
     }
 
     override fun describeContents(): Int {

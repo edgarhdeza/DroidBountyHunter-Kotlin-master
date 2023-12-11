@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import edu.training.droidbountyhunterkotlin.DetalleActivity
 import edu.training.droidbountyhunterkotlin.FugitivoViewModel
 import edu.training.droidbountyhunterkotlin.R
+import edu.training.droidbountyhunterkotlin.adapters.AdaptadorFugitivos
 import edu.training.droidbountyhunterkotlin.data.DatabaseBountyHunter
 import edu.training.droidbountyhunterkotlin.models.Fugitivo
 import edu.training.droidbountyhunterkotlin.network.JSONUtils
@@ -64,10 +65,10 @@ class ListFragment : Fragment() {
         val database = DatabaseBountyHunter(requireContext())
         val fugitivos = database.obtenerFugitivos(modo)
         if(fugitivos.isNotEmpty()){
-            val values = ArrayList<String?>()
-            fugitivos.mapTo(values){ it.name }
+            val values = ArrayList<Fugitivo>()
+            fugitivos.mapTo(values){ it }
 
-            val adaptador = ArrayAdapter<String>(requireContext(), R.layout.item_fugitivo_list, values)
+            val adaptador = AdaptadorFugitivos(requireContext(), values)
             listView!!.adapter = adaptador
             listView.tag = fugitivos
         }
